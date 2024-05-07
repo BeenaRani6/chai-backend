@@ -1,6 +1,7 @@
 import dotenv from "dotenv"
 // require ('dotenv').config({path: './env'})
-// import mongoose from "mongoose";
+import mongoose from "mongoose";
+import { app } from "./app.js";
 import connectDB from "./db/index.js";
 
 
@@ -10,6 +11,14 @@ dotenv.config({
 
 
 connectDB()
+.then( ()=>{
+ app.listen(process.env.PORT || 8000, () =>{
+    console.log(`Server is running at port ${process.env.PORT}`);
+ })
+})
+.catch((err) =>{
+    console.log("MongoDB connection failed !!! ", err)
+})
 
 
 
@@ -21,10 +30,11 @@ connectDB()
 
 // import express from  "express"
 // const app = express()
-// (async () =>{
+// ;(async () =>{
+    // ---- semicolon is used here for cleaning purpose only 
 //     try{
-//         mongoose.connect(`${process.env.MONGODB_URI}/ ${DB_NAME}`)
-//         app.on("error", (error) =>{
+//       await  mongoose.connect(`${process.env.MONGODB_URI}/ ${DB_NAME}`)
+//    maybe express doesn't connect to database that is why we use app.on...      app.on("error", (error) =>{
 //             console.log("ERR:", error)
 //         })
 
@@ -33,7 +43,7 @@ connectDB()
 
 //         })
 //     } catch (error){
-//         console.log("Error", error);
+//         console.error("Error", error);
 //         throw err
 //     }
 // })()
